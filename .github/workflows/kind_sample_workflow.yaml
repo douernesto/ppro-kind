@@ -2,7 +2,7 @@ name: Plan dev-us-east-1
 on:
   pull_request:
     paths:
-      - ".github/workflows/kind_sample_workflow.yml"
+      - ".github/workflows/kind_sample_workflow.yaml"
   workflow_dispatch:
     inputs:
       confirmation:
