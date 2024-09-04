@@ -29,12 +29,12 @@ jobs:
         run: |
           kubectl cluster-info  
 
-      - name: Apply Kubernetes manifest
+      - name: Create Namespaces
         run: |
           kubectl create namespace qa   
           kubectl create namespace prod     
 
-      - name: Apply Kubernetes manifest
+      - name: Apply Kubernetes Manifest
         run: |
           kubectl apply -f manifest-sample-app/deployment.yaml -n qa
 
@@ -48,7 +48,7 @@ jobs:
         run: |          
           kubectl rollout status deployment/manifest-sample-app -n qa
           kubectl rollout status deployment/ingress-nginx-controller
-          sleep 30s
+          sleep 120s
 
       - name: List Kubernetes resources
         run: |
