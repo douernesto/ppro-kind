@@ -46,7 +46,7 @@ jobs:
 
       - name: Install Kind Ingress Controller
         run: |  
-          https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
       - name: Wait for resources to be ready
         run: |
