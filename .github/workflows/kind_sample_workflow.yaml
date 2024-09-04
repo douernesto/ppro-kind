@@ -46,8 +46,10 @@ jobs:
 
       - name: Wait for resources to be ready
         run: |          
-          kubectl rollout status deployment/manifest-sample-app -n qa
-          kubectl rollout status deployment/ingress-nginx-controller
+          kubectl wait --namespace default \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/component=controller \
+            --timeout=90s
 
       - name: List Kubernetes resources
         run: |
