@@ -40,6 +40,7 @@ jobs:
       - name: List Kubernetes resources
         run: |
           kubectl get all -n qa
+          kubectl get ingress -n qa
 
       - name: Test Ingresss
         run: |
