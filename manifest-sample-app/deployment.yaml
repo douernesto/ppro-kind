@@ -47,7 +47,7 @@ spec:
     - http:
         paths:
           - pathType: Prefix
-            path: /sample(/|$)(.*)
+            path: /(/|$)(.*)
             backend:
               service:
                 name: manifest-sample-svc
