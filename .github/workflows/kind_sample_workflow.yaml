@@ -48,7 +48,6 @@ jobs:
         run: |          
           kubectl rollout status deployment/manifest-sample-app -n qa
           kubectl rollout status deployment/ingress-nginx-controller
-          sleep 120s
 
       - name: List Kubernetes resources
         run: |
@@ -59,5 +58,6 @@ jobs:
 
       - name: Test Ingresss
         run: |
-          curl http://manifest-sample.local
+          export SAMPLE_APP_IP=$(kubectl get svc kps-dns -o jsonpath='{.spec.clusterIP}')
+          curl http://SAMPLE_APP_IP
 
