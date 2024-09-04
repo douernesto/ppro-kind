@@ -55,6 +55,7 @@ jobs:
           kubectl get all -n default
           kubectl get all -n qa
           kubectl get ingress -n qa
+          kubectl get ingressclasses
 
       - name: Test Ingresss
         run: |
