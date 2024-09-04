@@ -1,0 +1,41 @@
+name: Plan dev-us-east-1
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/kind_sample_workflow.yml"
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Set this to 'true' to run."
+        required: true
+        type: boolean
+
+env:
+  tf_version: 1.5.5
+  TF_INPUT: false
+  AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+  AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+  AWS_REGION: "us-east-1"
+
+defaults:
+  run:
+    working-directory: "environments/dev-us-east-1"
+
+jobs:
+  kind-sample:
+    name: Kind Sample
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Apply Kubernetes Manifest
+        run: |
+          kubectl apply -f manifest-sample-app/deployment.yaml
