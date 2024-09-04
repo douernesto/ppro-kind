@@ -46,7 +46,7 @@ jobs:
 
       - name: List Kubernetes resources
         run: |
-          kubectl get ns
+          kubectl get all -n default
           kubectl get all -n qa
           kubectl get ingress -n qa
 
