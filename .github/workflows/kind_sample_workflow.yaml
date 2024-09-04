@@ -63,6 +63,6 @@ jobs:
 
       - name: Test Ingresss from another Pod
         run: |
-          kubectl exec -n default --container curl "-k -v http://localhost/sample --connect-timeout 30"
+          kubectl exec -n default --container curl "-k -v http://manifest-sample.local --connect-timeout 30"
 
 
