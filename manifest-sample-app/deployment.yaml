@@ -43,11 +43,13 @@ kind: Ingress
 metadata:
   name: manifest-sample-ingress
 spec:
+  ingressClassName: nginx
   rules:
-    - http:
+    - host: manifest-sample.local
+      http:
         paths:
           - pathType: Prefix
-            path: /(/|$)(.*)
+            path: /
             backend:
               service:
                 name: manifest-sample-svc
