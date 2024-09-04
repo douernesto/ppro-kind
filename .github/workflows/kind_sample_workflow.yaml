@@ -27,6 +27,11 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
 
+      - name: Install Chainsaw
+        uses: kyverno/action-install-chainsaw@v0.2.8
+        with:
+          release: v0.2.8        
+
       - name: Kind Cluster Info
         run: |
           kubectl cluster-info  
@@ -39,7 +44,6 @@ jobs:
       - name: Apply Kubernetes Manifest
         run: |
           kubectl apply -f manifest-sample-app/deployment.yaml -n qa
-          kubectl apply -f manifest-sample-app/curl.yaml
 
       - name: Install Nginx Ingress Controller using Helm
         run: |
@@ -61,6 +65,6 @@ jobs:
           kubectl get ingress -n qa
           kubectl get ingressclasses
 
-      - name: Test Ingresss from another Pod
+      - name: Run Chainsaw Tests 🧪
         run: |
-          kubectl exec -n default -it curl -- curl http://manifest-sample.local --connect-timeout 30
+          chainsaw test
