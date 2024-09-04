@@ -1,25 +1,14 @@
-name: Plan dev-us-east-1
+name: Kind Cluster Sample App
 on:
   pull_request:
     paths:
-      - ".github/workflows/kind_sample_workflow.yml"
+      - ".github/workflows/kind_sample_workflow.yaml"
   workflow_dispatch:
     inputs:
       confirmation:
-        description: "Set this to 'true' to run."
+        description: "Set this to 'true' to manually run."
         required: true
         type: boolean
-
-env:
-  tf_version: 1.5.5
-  TF_INPUT: false
-  AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-  AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-  AWS_REGION: "us-east-1"
-
-defaults:
-  run:
-    working-directory: "environments/dev-us-east-1"
 
 jobs:
   kind-sample:
@@ -32,10 +21,50 @@ jobs:
 
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1
+        with:
+          config: kind/config.yaml
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
 
-      - name: Apply Kubernetes Manifest
+      - name: Install Chainsaw
+        uses: kyverno/action-install-chainsaw@v0.2.8
+        with:
+          release: v0.2.8        
+
+      - name: Kind Cluster Info
         run: |
-          kubectl apply -f manifest-sample-app/deployment.yaml
+          kubectl cluster-info  
+
+      - name: Create Namespaces
+        run: |
+          kubectl create namespace qa   
+          kubectl create namespace prod     
+
+      - name: Install Nginx Ingress Controller using Helm
+        run: |
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+          helm repo update
+          helm install ingress-nginx ingress-nginx/ingress-nginx --version 4.11.2
+
+      - name: Wait for resources to be ready
+        run: |
+          kubectl wait --namespace default \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/component=controller \
+            --timeout=90s   
+
+      - name: Apply Kubernetes Manifests
+        run: |
+          kubectl apply -f manifest-sample-app/deployment.yaml -n qa
+
+      - name: List Kubernetes resources
+        run: |      
+          kubectl get all -n default
+          kubectl get all -n qa
+          kubectl get ingress -n qa
+          kubectl get ingressclasses
+
+      - name: Run Chainsaw Tests
+        run: |
+          chainsaw test
