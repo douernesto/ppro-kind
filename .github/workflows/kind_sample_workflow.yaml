@@ -38,11 +38,15 @@ jobs:
         run: |
           kubectl apply -f manifest-sample-app/deployment.yaml -n qa
 
-      - name: Install Nginx Ingress Controller using Helm
-        run: |
-          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-          helm repo update
-          helm install ingress-nginx ingress-nginx/ingress-nginx --version 4.11.2
+      # - name: Install Nginx Ingress Controller using Helm
+      #   run: |
+      #     helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+      #     helm repo update
+      #     helm install ingress-nginx ingress-nginx/ingress-nginx --version 4.11.2
+
+      - name: Install Kind Ingress Controller
+        run: |  
+          https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
       - name: Wait for resources to be ready
         run: |          
@@ -51,9 +55,12 @@ jobs:
             --selector=app.kubernetes.io/component=controller \
             --timeout=90s
 
-      - name: List Kubernetes resources
+      - name: Wait for resources to be ready
         run: |
-          sleep 5m        
+          sleep 3m 
+
+      - name: List Kubernetes resources
+        run: |      
           kubectl get all -n default
           kubectl get all -n qa
           kubectl get ingress -n qa
