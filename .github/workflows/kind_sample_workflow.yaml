@@ -1,4 +1,4 @@
-name: Plan dev-us-east-1
+name: Kind Cluster Sample App
 on:
   pull_request:
     paths:
@@ -6,20 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: "Set this to 'true' to run."
+        description: "Set this to 'true' to manually run."
         required: true
         type: boolean
-
-env:
-  tf_version: 1.5.5
-  TF_INPUT: false
-  AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-  AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-  AWS_REGION: "us-east-1"
-
-defaults:
-  run:
-    working-directory: "environments/dev-us-east-1"
 
 jobs:
   kind-sample:
