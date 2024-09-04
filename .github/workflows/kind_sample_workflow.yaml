@@ -61,5 +61,5 @@ jobs:
 
       - name: Test Ingresss
         run: |
-          curl http://manifest-sample.local --connect-timeout 30
+          curl -k -v http://localhost/sample --connect-timeout 30
 
