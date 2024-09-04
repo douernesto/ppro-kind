@@ -53,6 +53,7 @@ jobs:
 
       - name: List Kubernetes resources
         run: |
+          sleep 5m        
           kubectl get all -n default
           kubectl get all -n qa
           kubectl get ingress -n qa
@@ -60,6 +61,5 @@ jobs:
 
       - name: Test Ingresss
         run: |
-          export SAMPLE_APP_IP=$(kubectl get svc manifest-sample-svc -n qa -o jsonpath='{.spec.clusterIP}')
-          curl http://$SAMPLE_APP_IP
+          curl http://manifest-sample.local --connect-timeout 30
 
