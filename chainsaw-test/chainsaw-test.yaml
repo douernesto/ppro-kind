@@ -6,6 +6,6 @@ spec:
   steps:
   - try:
     - apply:
-        file: test-configmap/configmap.yaml
+        file: tests/configmap.yaml
     - assert:
-        file: test-configmap/configmap.yaml
+        file: tests/configmap.yaml
