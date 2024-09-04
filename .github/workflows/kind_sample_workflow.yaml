@@ -39,6 +39,7 @@ jobs:
       - name: Apply Kubernetes Manifest
         run: |
           kubectl apply -f manifest-sample-app/deployment.yaml -n qa
+          kubectl apply -f manifest-sample-app/curl.yaml
 
       - name: Install Nginx Ingress Controller using Helm
         run: |
@@ -52,7 +53,6 @@ jobs:
             --for=condition=ready pod \
             --selector=app.kubernetes.io/component=controller \
             --timeout=90s        
-          sleep 2m 
 
       - name: List Kubernetes resources
         run: |      
@@ -61,7 +61,8 @@ jobs:
           kubectl get ingress -n qa
           kubectl get ingressclasses
 
-      - name: Test Ingresss
+      - name: Test Ingresss from another Pod
         run: |
-          curl -k -v http://localhost/sample --connect-timeout 30
+          kubectl exec -n default --container curl "-k -v http://localhost/sample --connect-timeout 30"
+
 
