@@ -2,6 +2,11 @@
 
 Pipeline exampample that executes the following steps using Github Workflows and community runners and actions:
 
+## To execute
+1. Go to the project Actiona and trigger a manual Workflow Dispatch
+
+## How it works
+
 1. Checkout code
 1. Create a Kind Cluster using GH Action
 1. Install Kubectl using GH Action
@@ -15,7 +20,7 @@ Pipeline exampample that executes the following steps using Github Workflows and
 1. Deploy a Sample Application using manifests
     1. Create "Deployment"
     1. Create "Service"
-    2. Create "Ingress"
+    1. Create "Ingress"
 1. List Kubernetes resources on the cluster
 1. Run Chainsaw Tests
     1. A very simple deployment of a configmap manifest
