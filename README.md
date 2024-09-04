@@ -3,7 +3,7 @@
 Pipeline exampample that executes the following steps using Github Workflows and community runners and actions:
 
 ## To execute
-1. Go to the project Actiona and trigger a manual Workflow Dispatch
+1. Go to the project Actiona and trigger a manual Workflow Dispatch for "Kind Cluster Sample App"
 
 ## How it works
 
