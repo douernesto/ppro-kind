@@ -60,6 +60,6 @@ jobs:
 
       - name: Test Ingresss
         run: |
-          export SAMPLE_APP_IP=$(kubectl get svc kps-dns -o jsonpath='{.spec.clusterIP}')
+          export SAMPLE_APP_IP=$(kubectl get svc manifest-sample-svc -n qa -o jsonpath='{.spec.clusterIP}')
           curl http://$SAMPLE_APP_IP
 
