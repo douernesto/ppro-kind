@@ -49,15 +49,12 @@ jobs:
           https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
       - name: Wait for resources to be ready
-        run: |          
+        run: |
           kubectl wait --namespace default \
             --for=condition=ready pod \
             --selector=app.kubernetes.io/component=controller \
-            --timeout=90s
-
-      - name: Wait for resources to be ready
-        run: |
-          sleep 3m 
+            --timeout=90s        
+          sleep 2m 
 
       - name: List Kubernetes resources
         run: |      
