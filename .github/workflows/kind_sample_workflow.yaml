@@ -25,6 +25,10 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
 
+      - name: Kind Cluster Info
+        run: |
+          kubectl cluster-info  
+
       - name: Apply Kubernetes manifest
         run: |
           kubectl create namespace qa   
@@ -44,6 +48,7 @@ jobs:
         run: |          
           kubectl rollout status deployment/manifest-sample-app -n qa
           kubectl rollout status deployment/ingress-nginx-controller
+          sleep 30s
 
       - name: List Kubernetes resources
         run: |
