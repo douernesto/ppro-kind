@@ -42,14 +42,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: manifest-sample-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2  
 spec:
   ingressClassName: nginx
   rules:
-    - host: manifest-sample.local
-      http:
+    - http:
         paths:
           - pathType: Prefix
-            path: /
+            path: /sample(/|$)(.*)
             backend:
               service:
                 name: manifest-sample-svc
