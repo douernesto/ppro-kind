@@ -41,10 +41,6 @@ jobs:
           kubectl create namespace qa   
           kubectl create namespace prod     
 
-      - name: Apply Kubernetes Manifest
-        run: |
-          kubectl apply -f manifest-sample-app/deployment.yaml -n qa
-
       - name: Install Nginx Ingress Controller using Helm
         run: |
           helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -56,7 +52,11 @@ jobs:
           kubectl wait --namespace default \
             --for=condition=ready pod \
             --selector=app.kubernetes.io/component=controller \
-            --timeout=90s        
+            --timeout=90s   
+
+      - name: Apply Kubernetes Manifests
+        run: |
+          kubectl apply -f manifest-sample-app/deployment.yaml -n qa
 
       - name: List Kubernetes resources
         run: |      
@@ -65,6 +65,6 @@ jobs:
           kubectl get ingress -n qa
           kubectl get ingressclasses
 
-      - name: Run Chainsaw Tests 🧪
+      - name: Run Chainsaw Tests
         run: |
           chainsaw test
